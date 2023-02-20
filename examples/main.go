@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	s, err := sonic.New(nil)
+	client, err := sonic.New(nil)
 	if err != nil {
 		panic(err)
 	}
@@ -17,9 +17,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-
-
-	err = s.Interface().MTU(ctx, "Ethernet0", 9000)
+	err = client.Interface("Ethernet0").Vrf(ctx, 90)
 	if err != nil {
 		panic(err)
 	}

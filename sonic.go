@@ -6,7 +6,7 @@ import (
 
 type Sonic interface {
 	ConfigDB() ConfigDB
-	Interface() *Interface
+	Interface(interfaces ...string) *Interface
 	VlanMember() *VlanMember
 }
 
@@ -32,10 +32,11 @@ func (s *sonic) ConfigDB() ConfigDB {
 }
 
 // Interface implements Sonic
-func (s *sonic) Interface() *Interface {
+func (s *sonic) Interface(interfaces ...string) *Interface {
 	return &Interface{
-		db: s.db,
-		t:  PortTable,
+		db:         s.db,
+		t:          PortTable,
+		interfaces: interfaces,
 	}
 }
 func (s *sonic) VlanMember() *VlanMember {

@@ -20,24 +20,25 @@ func TestInterface_MTU(t *testing.T) {
 	tests := []struct {
 		name          string
 		interfaceName string
-		mtu           uint16
+		vrf           uint16
 		mock          redismock.ClientMock
 		wantErr       bool
 	}{
 		{
 			name:          "Set MTU",
 			interfaceName: "Ethernet0",
-			mtu:           9000,
+			vrf:           30,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mock.ExpectHSet(fmt.Sprintf("%s|%s", InterfaceTable, tt.interfaceName), map[string]string{"mtu": fmt.Sprintf("%d", tt.mtu)}).SetVal(int64(1))
+			mock.ExpectHSet(fmt.Sprintf("%s|%s", InterfaceTable, tt.interfaceName), map[string]string{"vrf_name": fmt.Sprintf("Vrf%d", tt.vrf)}).SetVal(int64(1))
 			i := &Interface{
-				db: c,
-				t:  table,
+				db:         c,
+				t:          table,
+				interfaces: []string{tt.interfaceName},
 			}
-			if err := i.MTU(ctx, tt.interfaceName, tt.mtu); (err != nil) != tt.wantErr {
+			if err := i.Vrf(ctx, tt.vrf); (err != nil) != tt.wantErr {
 				t.Errorf("Interface.MTU() error = %q, wantErr %v", err, tt.wantErr)
 			}
 		})
