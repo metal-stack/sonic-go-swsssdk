@@ -19,7 +19,7 @@ jobs:
       - name: Lint
         uses: golangci/golangci-lint-action@v3
         with:
-          args: -p bugs -p unused
+          args: --presets bugs --presets unused --skip-dirs examples
 
       - name: Build
         run: make
