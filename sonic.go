@@ -7,7 +7,7 @@ import (
 type Sonic interface {
 	ConfigDB() ConfigDB
 	Interface() *Interface
-	Vlan() *VlanMember
+	VlanMember() *VlanMember
 }
 
 type sonic struct {
@@ -38,7 +38,7 @@ func (s *sonic) Interface() *Interface {
 		t:  PortTable,
 	}
 }
-func (s *sonic) Vlan() *VlanMember {
+func (s *sonic) VlanMember() *VlanMember {
 	return &VlanMember{
 		db: s.db,
 		t:  VlanTable,
