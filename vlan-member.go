@@ -27,9 +27,9 @@ func (v *VlanMember) SetMember(ctx context.Context, interfaceName string, vlan u
 		return nil
 	}
 
-	var value map[string]any
+	var value map[string]string
 	if !tagged {
-		value = map[string]any{
+		value = map[string]string{
 			taggingMode: untagged,
 		}
 	} else {

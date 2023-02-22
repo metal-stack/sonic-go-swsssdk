@@ -7,6 +7,7 @@ import (
 type Sonic interface {
 	ConfigDB() ConfigDB
 	Interface(interfaces ...string) *Interface
+	Port(port string) *Port
 	VlanMember() *VlanMember
 }
 
@@ -35,13 +36,20 @@ func (s *sonic) ConfigDB() ConfigDB {
 func (s *sonic) Interface(interfaces ...string) *Interface {
 	return &Interface{
 		db:         s.db,
-		t:          PortTable,
+		t:          InterfaceTable,
 		interfaces: interfaces,
 	}
 }
 func (s *sonic) VlanMember() *VlanMember {
 	return &VlanMember{
 		db: s.db,
-		t:  VlanTable,
+		t:  VlanMemberTable,
+	}
+}
+func (s *sonic) Port(port string) *Port {
+	return &Port{
+		db:   s.db,
+		t:    PortTable,
+		port: port,
 	}
 }

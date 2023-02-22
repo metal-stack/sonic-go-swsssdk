@@ -9,10 +9,10 @@ import (
 
 // ConfigDB presents the low level interface to the redis CONFIG_DB of a SONiC switch.
 type ConfigDB interface {
-	Set(ctx context.Context, table Table, key Key, data map[string]any) error
+	Set(ctx context.Context, table Table, key Key, data map[string]string) error
 	Get(ctx context.Context, table Table, key Key) (map[string]string, error)
 	Delete(ctx context.Context, table Table, key Key) error
-	Update(ctx context.Context, table Table, key Key, data map[string]any) error
+	Update(ctx context.Context, table Table, key Key, data map[string]string) error
 	GetKeys(ctx context.Context, table Table, split bool) ([]Key, error)
 }
 
@@ -37,12 +37,12 @@ func (c *configDB) Get(ctx context.Context, table Table, key Key) (map[string]st
 }
 
 // Set implements ConfigDB
-func (c *configDB) Set(ctx context.Context, table Table, key Key, data map[string]any) error {
+func (c *configDB) Set(ctx context.Context, table Table, key Key, data map[string]string) error {
 	return c.client.HSet(ctx, k(table, key), data).Err()
 }
 
 // Update implements ConfigDB
-func (c *configDB) Update(ctx context.Context, table Table, key Key, data map[string]any) error {
+func (c *configDB) Update(ctx context.Context, table Table, key Key, data map[string]string) error {
 	return c.client.HSet(ctx, k(table, key), data).Err()
 }
 

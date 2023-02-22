@@ -18,7 +18,7 @@ func (i *Interface) Vrf(ctx context.Context, vrf uint16) error {
 	}
 	var errs []error
 	for _, ifaceName := range i.interfaces {
-		err := i.db.Set(ctx, i.t, AsKey(ifaceName), map[string]any{"vrf_name": fmt.Sprintf("Vrf%d", vrf)})
+		err := i.db.Set(ctx, i.t, AsKey(ifaceName), map[string]string{"vrf_name": fmt.Sprintf("Vrf%d", vrf)})
 		errs = append(errs, err)
 	}
 
